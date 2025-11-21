@@ -16,6 +16,7 @@ public class Drive extends SubsystemBase{
     private final MecanumDrive robotDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 
     //[TODO] Change the locations.These are example values
+    /*
     private final Translation2d frontLeftLocation = new Translation2d(0.381, 0.381);
     private final Translation2d frontRightLocation = new Translation2d(0.381, -0.381);
     private final Translation2d backLeftLocation = new Translation2d(-0.381, 0.381);
@@ -23,6 +24,7 @@ public class Drive extends SubsystemBase{
 
     MecanumDriveKinematics m_kinematics = new MecanumDriveKinematics(frontLeftLocation, frontRightLocation, 
         backLeftLocation, backRightLocation);
+    */
 
     public Drive(){
     }

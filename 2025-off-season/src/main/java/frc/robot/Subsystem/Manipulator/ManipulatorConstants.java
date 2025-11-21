@@ -1,21 +1,19 @@
-package frc.robot.Subsystem.Arm;
+package frc.robot.Subsystem.Manipulator;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.util.Units;
 
-public class ArmConstants{
-    //[TODO] Make sure of the values
-    public static final int kRotationMotorPWMPort = 4;
-    public static final int kRotationMotorCanID = 1;
-    public static final boolean kRotationMotorReversed = false;
-    public static final MotorType kRotationMotorType = MotorType.kBrushed;
+public class ManipulatorConstants{
+    public static final int kArmRotationMotorPWMPort = 4;
+    public static final int kArmRotationMotorCanID = 1;
+    public static final MotorType kArmRotationMotorType = MotorType.kBrushless;
+    public static final boolean kArmRotationMotorReversed = false;
 
-    //[TODO] Could combine arm and dropper hold on
-    public static final int kIntakeMotorPWMPort = 5;
-    public static final int kIntakeMotorCanID = 2;
-    public static final boolean kIntakeMotorReversed = false;
-    public static final MotorType kIntakeMotorType = MotorType.kBrushed;
+    public static final int kSpinMotorPWMPort = 5;
+    public static final int kSpinMotorCanID = 2;
+    public static final MotorType kSpinMotorType = MotorType.kBrushless;
+    public static final boolean kSpinMotorReversed = false;
 
     public static final int[] kEncoderDIOPorts = {0,1};
     public static final boolean kEncoderReversed = true;

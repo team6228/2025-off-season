@@ -8,14 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Subsystem.Drive.Drive;
-import frc.robot.Subsystem.Dropper.Dropper;
+import frc.robot.Subsystem.Manipulator.Manipulator;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Subsystem.Arm.Arm;
 
 public class RobotContainer {
   private final Drive mDriveSubsystem = new Drive();
-  private final Arm mArmSubsystem = new Arm();
-  private final Dropper mDropperSubsystem = new Dropper();
+  private final Manipulator mManipulatorSubsystem = new Manipulator();
 
   private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.kControllerPort);
 
