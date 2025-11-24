@@ -1,19 +1,21 @@
 package frc.robot.Commands;
 
-import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystem.Drive.Drive;
 
-public class ArcadeDriveCmd extends Command{
+public class PolarDriveTimerCmd extends Command{
     private final Drive mDriveSubsystem;
-    private final Supplier<Double> mFwdSupplier,mRotSupplier;
+    private final Double mSpeed;
+    private final Double mSeconds;
+    private final Timer timer = new Timer();
 
-    public ArcadeDriveCmd(Drive DriveSubsystem,Supplier<Double> fwdFSupplier,Supplier<Double> rotSupplier){
+    public PolarDriveTimerCmd(Drive DriveSubsystem,Double speed,Double seconds){
         this.mDriveSubsystem = DriveSubsystem;
-        this.mFwdSupplier = fwdFSupplier;
-        this.mRotSupplier = rotSupplier;
-
+        this.mSpeed = speed;
+        this.mSeconds = seconds;
+        
         addRequirements(DriveSubsystem);
     }
 
@@ -22,7 +24,7 @@ public class ArcadeDriveCmd extends Command{
 
     @Override
     public void execute(){
-        mDriveSubsystem.driveArcade(mFwdSupplier.get(), mRotSupplier.get());
+        //[TODO] really cuh?
     }
 
     @Override

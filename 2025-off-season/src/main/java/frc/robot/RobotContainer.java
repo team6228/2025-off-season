@@ -9,7 +9,18 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Subsystem.Drive.Drive;
 import frc.robot.Subsystem.Manipulator.Manipulator;
+import frc.robot.Commands.CartesianDriveCmd;
+import frc.robot.Commands.CartesianDriveTimerCmd;
+import frc.robot.Commands.PolarDriveTimerCmd;
+import frc.robot.Commands.SetArmAngleCmd;
+import frc.robot.Commands.SpinWheelsCmd;
+import frc.robot.Commands.StopArmAngleCmd;
+import frc.robot.Commands.StopWheelsCmd;
+import frc.robot.Constants.MechConstants;
 import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
+import frc.robot.Commands.Autonomous.AutoBuilder;
 
 public class RobotContainer {
   private final Drive mDriveSubsystem = new Drive();
@@ -17,16 +28,42 @@ public class RobotContainer {
 
   private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.kControllerPort);
 
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
+
   public RobotContainer() {
     configureBindings();
+    configureAutonomousOptions();
 
-
+    mDriveSubsystem.setDefaultCommand(new CartesianDriveCmd(mDriveSubsystem,
+      () -> joystick.getRawAxis(0),() -> joystick.getRawAxis(1),() -> joystick.getRawAxis(2)));
   }
 
   private void configureBindings() {
+    //Dropper & intake
+    joystick.button(OperatorConstants.kSpinWheelsButton).toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem, MechConstants.kWheelSpeed));
+    joystick.button(OperatorConstants.kStopWheelsButton).toggleOnTrue(new StopWheelsCmd(mManipulatorSubsystem));
+
+    //Arm
+    joystick.button(OperatorConstants.kExtendArmButton).toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kExtendedArmAngle));
+    joystick.button(OperatorConstants.kExtendArmButton).toggleOnTrue(new StopArmAngleCmd(mManipulatorSubsystem));
+
+    //Testing / Debug
+    joystick.button(OperatorConstants.kTestRotationButton).toggleOnTrue(mManipulatorSubsystem.testRotationCmd(MechConstants.kRotationTestSpeed));
+  }
+
+  private void configureAutonomousOptions(){
+    var autonBuilder = new AutoBuilder(mDriveSubsystem,mManipulatorSubsystem);
+
+    autoChooser.setDefaultOption("Center",autonBuilder.Center());
+    autoChooser.addOption("Left", autonBuilder.Left());
+    autoChooser.addOption("Right", autonBuilder.Right());
+    autoChooser.addOption("Test", autonBuilder.Test());
+
+    // Put it on the dashboard
+    SmartDashboard.putData("Starting Position", autoChooser);
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return autoChooser.getSelected();
   }
 }

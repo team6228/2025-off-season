@@ -18,6 +18,8 @@ public class PolarDriveCmd extends Command{
 
     @Override
     public void execute(){
+        //[TODO] Do i need to explain?
+        mDriveSubsystem.drivePolar(null, null, null);
     }
 
     @Override
