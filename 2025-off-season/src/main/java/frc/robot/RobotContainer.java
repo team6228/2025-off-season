@@ -5,19 +5,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Subsystem.Drive.Drive;
 import frc.robot.Subsystem.Manipulator.Manipulator;
 import frc.robot.Commands.CartesianDriveCmd;
-import frc.robot.Commands.CartesianDriveTimerCmd;
-import frc.robot.Commands.PolarDriveTimerCmd;
 import frc.robot.Commands.SetArmAngleCmd;
 import frc.robot.Commands.SpinWheelsCmd;
 import frc.robot.Commands.StopArmAngleCmd;
 import frc.robot.Commands.StopWheelsCmd;
 import frc.robot.Constants.MechConstants;
 import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
 import frc.robot.Commands.Autonomous.AutoBuilder;
@@ -29,6 +27,7 @@ public class RobotContainer {
   private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.kControllerPort);
 
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
+  private SendableChooser<DriverStation.Alliance> allianceChooser = new SendableChooser<>();
 
   public RobotContainer() {
     configureBindings();
@@ -52,6 +51,9 @@ public class RobotContainer {
   }
 
   private void configureAutonomousOptions(){
+    allianceChooser.setDefaultOption("Blue", DriverStation.Alliance.Blue);
+    allianceChooser.addOption("Red", DriverStation.Alliance.Red);
+
     var autonBuilder = new AutoBuilder(mDriveSubsystem,mManipulatorSubsystem);
 
     autoChooser.setDefaultOption("Center",autonBuilder.Center());
@@ -59,8 +61,8 @@ public class RobotContainer {
     autoChooser.addOption("Right", autonBuilder.Right());
     autoChooser.addOption("Test", autonBuilder.Test());
 
-    // Put it on the dashboard
     SmartDashboard.putData("Starting Position", autoChooser);
+    SmartDashboard.putData("Alliance Chooser", allianceChooser);
   }
 
   public Command getAutonomousCommand() {
