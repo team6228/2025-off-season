@@ -15,45 +15,70 @@ import frc.robot.Commands.StopArmAngleCmd;
 import frc.robot.Commands.StopWheelsCmd;
 import frc.robot.Constants.MechConstants;
 import frc.robot.Constants.OperatorConstants;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard; 
 import frc.robot.Commands.Autonomous.AutoBuilder;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
   private final Drive mDriveSubsystem = new Drive();
   private final Manipulator mManipulatorSubsystem = new Manipulator();
 
+  //private final CommandXboxController joystick = new CommandXboxController(OperatorConstants.kControllerPort);
   private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.kControllerPort);
 
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
-  private SendableChooser<DriverStation.Alliance> allianceChooser = new SendableChooser<>();
+  private SendableChooser<String> joystickChooser = new SendableChooser<>();
 
   public RobotContainer() {
+    SmartDashboard.putData("Joystick type",joystickChooser);
+    joystickChooser.addOption("Radiomaster", "Radiomaster");
+    joystickChooser.addOption("Logitech", "Logitech");
+    joystickChooser.addOption("Xbox", "Xbox");
+
     configureBindings();
     configureAutonomousOptions();
 
+    /* 
+    Xbox
     mDriveSubsystem.setDefaultCommand(new CartesianDriveCmd(mDriveSubsystem,
-      () -> joystick.getRawAxis(0),() -> joystick.getRawAxis(1),() -> joystick.getRawAxis(2)));
+      () -> joystick.getRightY(),() -> joystick.getRightX(),() -> joystick.getLeftX()));
+    */
+
+    /* 
+    Radiomaster
+    mDriveSubsystem.setDefaultCommand(new CartesianDriveCmd(mDriveSubsystem,
+      () -> joystick.getRawAxis(1), () -> joystick.getRawAxis(0), () -> joystick.getRawAxis(3)));
+    */
+
+    mDriveSubsystem.setDefaultCommand(new CartesianDriveCmd(mDriveSubsystem,
+      () -> joystick.getRawAxis(1) * -1, () -> joystick.getRawAxis(0), () -> joystick.getRawAxis(2)));
   }
 
   private void configureBindings() {
+    //Xbox
+    /*
     //Dropper & intake
-    joystick.button(OperatorConstants.kSpinWheelsButton).toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem, MechConstants.kWheelSpeed));
-    joystick.button(OperatorConstants.kStopWheelsButton).toggleOnTrue(new StopWheelsCmd(mManipulatorSubsystem));
+    joystick.leftTrigger().toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem, MechConstants.kWheelAlgeaSpeed));
+    joystick.rightTrigger().toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem,MechConstants.kWheelReefSpeed));
 
     //Arm
-    joystick.button(OperatorConstants.kExtendArmButton).toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kExtendedArmAngle));
-    joystick.button(OperatorConstants.kExtendArmButton).toggleOnTrue(new StopArmAngleCmd(mManipulatorSubsystem));
+    joystick.rightBumper().toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kExtendedArmAngle));
+    joystick.leftBumper().toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kRetractArmAngle));
+    joystick.a().toggleOnTrue(mManipulatorSubsystem.getToAngleCmd(65));
+    */
 
-    //Testing / Debug
-    joystick.button(OperatorConstants.kTestRotationButton).toggleOnTrue(mManipulatorSubsystem.testRotationCmd(MechConstants.kRotationTestSpeed));
+    //Logitech
+    //Dropper & intake
+    joystick.button(3).toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem, MechConstants.kWheelAlgeaSpeed));
+    joystick.button(4).toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem,MechConstants.kWheelReefSpeed));
+
+    //Arm
+    joystick.button(5).toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kExtendedArmAngle));
+    joystick.button(6).toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kRetractArmAngle));
   }
 
   private void configureAutonomousOptions(){
-    allianceChooser.setDefaultOption("Blue", DriverStation.Alliance.Blue);
-    allianceChooser.addOption("Red", DriverStation.Alliance.Red);
-
     var autonBuilder = new AutoBuilder(mDriveSubsystem,mManipulatorSubsystem);
 
     autoChooser.setDefaultOption("Center",autonBuilder.Center());
@@ -62,7 +87,6 @@ public class RobotContainer {
     autoChooser.addOption("Test", autonBuilder.Test());
 
     SmartDashboard.putData("Starting Position", autoChooser);
-    SmartDashboard.putData("Alliance Chooser", allianceChooser);
   }
 
   public Command getAutonomousCommand() {

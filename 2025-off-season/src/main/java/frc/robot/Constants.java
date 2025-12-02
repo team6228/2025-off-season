@@ -12,9 +12,12 @@ public class Constants {
         public static final int kTestRotationButton = 8;
     }
     public static class MechConstants{
-        public static final double kWheelSpeed = 0.75;
+        public static final double kWheelReefSpeed = -0.5;
+        public static final double kWheelAlgeaSpeed = 0.5;
 
-        public static final double kExtendedArmAngle = 85;
+        public static final double kExtendedArmAngle = 75;
+        public static final double kRetractArmAngle = -5;
+
         public static final double kRotationTestSpeed = 0.5;
     }
     public static class AutonConstants{
@@ -26,20 +29,22 @@ public class Constants {
         public static final double kLeftTurnSeconds = 3;
         public static final double kRightTurnSeconds = 3;
 
-        public static final double kStartDriveSpeed = 0.5;
+        public static final double kStartDriveSpeed = 1;
 
-        public static final double kStartForwardSeconds = 2;
+        public static final double kStartForwardSeconds = 1.5;
 
-        public static final double kLeftDriveSpeed = 0.25;
-        public static final double kRightDriveSpeed = 0.25;
+        public static final double kLeftDriveSpeed =  0.85;
+        public static final double kRightDriveSpeed = 0.85;
 
-        public static final double kLeftDriveSeconds = 3;
-        public static final double kRightDriveSeconds = 3;
+        public static final double kLeftDriveSeconds = 1;
+        public static final double kRightDriveSeconds = 1;
 
         public static final double kLeftFinalSpeed = 0.25;
         public static final double kRightFinalSpeed = 0.25;
 
         public static final double kLeftFinalSeconds = 1.5;
         public static final double kRightFinalSeconds = 1.5;
+
+        public static final double kReefCooldown = 1.0;
     }
 }

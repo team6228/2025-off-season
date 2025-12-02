@@ -6,26 +6,30 @@ import frc.robot.Subsystem.Manipulator.Manipulator;
 
 public class SetArmAngleCmd extends Command{
     private Manipulator mManipulatorSubsystem;
-    private Double mPosition;
+    private Double mAngle;
 
-    public SetArmAngleCmd(Manipulator manipulatorSubsystem,Double position){
+    public SetArmAngleCmd(Manipulator manipulatorSubsystem,Double angle){
         this.mManipulatorSubsystem = manipulatorSubsystem;
-        this.mPosition = position;
+        this.mAngle = angle;
 
         addRequirements(manipulatorSubsystem);
     }
 
     @Override
     public void initialize(){
+        mManipulatorSubsystem.setSetpoint(mAngle);
     }
 
     @Override
     public void execute(){
-        mManipulatorSubsystem.setAngle(Units.degreesToRadians(mPosition));
+        mManipulatorSubsystem.calculate();
     }
 
     @Override
-    public void end(boolean interrupted){}
+    public void end(boolean interrupted){
+        mManipulatorSubsystem.stopWheels();
+        mManipulatorSubsystem.resetPid();
+    }
 
     @Override
     public boolean isFinished(){

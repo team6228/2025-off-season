@@ -21,7 +21,9 @@ public class StopWheelsCmd extends Command{
     }
 
     @Override
-    public void end(boolean interrupted){}
+    public void end(boolean interrupted){
+        mManipulatorSubsystem.stopWheels();
+    }
 
     @Override
     public boolean isFinished(){

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Subsystem.Manipulator.Manipulator;
 import frc.robot.Constants.AutonConstants;
 import frc.robot.Constants.MechConstants;
@@ -29,8 +30,9 @@ public class AutoBuilder extends Command{
     public Command Center(){
         return Commands.sequence(
             new CartesianDriveTimerCmd(mDrive, AutonConstants.kStartDriveSpeed, AutonConstants.kStartForwardSeconds),
+            new WaitCommand(AutonConstants.kReefCooldown),
             
-            new SpinWheelsCmd(mManipulator, MechConstants.kWheelSpeed).withTimeout(AutonConstants.kSpinWheelsSeconds),
+            new SpinWheelsCmd(mManipulator, MechConstants.kWheelReefSpeed).withTimeout(AutonConstants.kSpinWheelsSeconds),
             
             new StopWheelsCmd(mManipulator)
         );
@@ -40,6 +42,7 @@ public class AutoBuilder extends Command{
         return Commands.sequence(
             //First approach
             new CartesianDriveTimerCmd(mDrive, AutonConstants.kLeftDriveSpeed, AutonConstants.kLeftDriveSeconds),
+            new WaitCommand(AutonConstants.kReefCooldown),
             //Turn based on alliance
             Commands.either(
                 new CartesianTurnTimerCmd(mDrive, AutonConstants.kLeftTurnSpeed, AutonConstants.kLeftTurnSeconds),
@@ -49,7 +52,7 @@ public class AutoBuilder extends Command{
             //Final approach
             new CartesianDriveTimerCmd(mDrive, AutonConstants.kLeftFinalSpeed, AutonConstants.kLeftFinalSeconds),
 
-            new SpinWheelsCmd(mManipulator, MechConstants.kWheelSpeed).withTimeout(AutonConstants.kSpinWheelsSeconds),
+            new SpinWheelsCmd(mManipulator, MechConstants.kWheelReefSpeed).withTimeout(AutonConstants.kSpinWheelsSeconds),
             new StopWheelsCmd(mManipulator)
         );
     }
@@ -57,7 +60,7 @@ public class AutoBuilder extends Command{
     public Command Right(){
         return Commands.sequence(
             //First approach
-            new CartesianDriveTimerCmd(mDrive, AutonConstants.kRightDriveSeconds, AutonConstants.kRightDriveSeconds),
+            new CartesianDriveTimerCmd(mDrive, AutonConstants.kRightDriveSpeed, AutonConstants.kRightDriveSeconds),
             //Turn based on alliance
             Commands.either(
                 new CartesianTurnTimerCmd(mDrive, -1 * AutonConstants.kRightTurnSpeed, AutonConstants.kRightTurnSeconds),
@@ -68,7 +71,7 @@ public class AutoBuilder extends Command{
             //Final approach
             new CartesianDriveTimerCmd(mDrive, AutonConstants.kRightFinalSpeed, AutonConstants.kRightFinalSeconds),
 
-            new SpinWheelsCmd(mManipulator, MechConstants.kWheelSpeed).withTimeout(AutonConstants.kSpinWheelsSeconds),
+            new SpinWheelsCmd(mManipulator, MechConstants.kWheelReefSpeed).withTimeout(AutonConstants.kSpinWheelsSeconds),
             new StopWheelsCmd(mManipulator)
         );
     }

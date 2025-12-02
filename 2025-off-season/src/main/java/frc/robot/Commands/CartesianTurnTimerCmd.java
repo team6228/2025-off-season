@@ -36,10 +36,12 @@ public class CartesianTurnTimerCmd extends Command{
     }
 
     @Override
-    public void end(boolean interrupted){}
+    public void end(boolean interrupted){
+        mDriveSubsystem.stopMotors();
+    }
 
     @Override
     public boolean isFinished(){
-        return false;
+        return timer.get() >= mSeconds;
     }
 }
