@@ -21,7 +21,9 @@ public class StopArmAngleCmd extends Command{
     }
 
     @Override
-    public void end(boolean interrupted){}
+    public void end(boolean interrupted){
+        mManipulatorSubsystem.stopRotation();
+    }
 
     @Override
     public boolean isFinished(){

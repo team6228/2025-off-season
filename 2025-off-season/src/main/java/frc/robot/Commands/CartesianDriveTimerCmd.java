@@ -32,24 +32,17 @@ public class CartesianDriveTimerCmd extends Command{
         //[TODO] be sure that xSpeed is forward.Wallahi wpilib docs be quircky at night
         if(timer.get() < mSeconds){
             double accelX = mDrive.accel.getX();   
+            double accelY = mDrive.accel.getY();
             double accelZ = mDrive.accel.getZ();   
 
-            double kStrafe = 0.5;  
-            double kRotate = 0.25;
-
-            double strafeCorrection   = -accelX * kStrafe; 
-            double rotationCorrection = -accelZ * kRotate;  
-
-            SmartDashboard.putNumber("Strafe Correction", strafeCorrection);
-            SmartDashboard.putNumber("Rotation Correction", rotationCorrection);
-
-            mDrive.driveCartesian(mSpeed, strafeCorrection, rotationCorrection);
+            mDrive.driveCartesian(mSpeed, 0., -0.05267);
         }else if(timer.get() > mSeconds)
             mDrive.stopMotors();
     }
 
     @Override
     public void end(boolean interrupted){
+        mDrive.brakeMotors();
         mDrive.stopMotors();
     }
 

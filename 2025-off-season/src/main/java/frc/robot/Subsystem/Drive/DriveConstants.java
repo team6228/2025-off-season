@@ -1,16 +1,16 @@
 package frc.robot.Subsystem.Drive;
 
 public class DriveConstants {
-    public static final int frontLeftMotorPWMPort = 3;
+    public static final int frontLeftMotorPWMPort = 6;
     public static final boolean frontLeftMotorReversed = false;
 
-    public static final int frontRightMotorPWMPort = 1;
+    public static final int frontRightMotorPWMPort = 7;
     public static final boolean frontRightMotorReversed = true;
 
-    public static final int rearLeftMotorPWMPort = 0;
+    public static final int rearLeftMotorPWMPort = 9;
     public static final boolean rearLeftMotorReversed = false;
 
-    public static final int rearRightMotorPWMPort = 2;
+    public static final int rearRightMotorPWMPort = 1;
     public static final boolean rearRightMotorReversed = true;
 
     public static final double joystickCoefficient = -1.0;

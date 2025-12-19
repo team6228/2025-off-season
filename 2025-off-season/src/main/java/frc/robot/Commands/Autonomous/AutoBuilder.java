@@ -49,9 +49,11 @@ public class AutoBuilder extends Command{
                 new CartesianTurnTimerCmd(mDrive, -1 * AutonConstants.kLeftTurnSpeed, AutonConstants.kLeftTurnSeconds), 
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red
             ),
+            new WaitCommand(AutonConstants.kTurnCooldown),
             //Final approach
             new CartesianDriveTimerCmd(mDrive, AutonConstants.kLeftFinalSpeed, AutonConstants.kLeftFinalSeconds),
 
+            new WaitCommand(AutonConstants.kReefCooldown),
             new SpinWheelsCmd(mManipulator, MechConstants.kWheelReefSpeed).withTimeout(AutonConstants.kSpinWheelsSeconds),
             new StopWheelsCmd(mManipulator)
         );
@@ -61,16 +63,18 @@ public class AutoBuilder extends Command{
         return Commands.sequence(
             //First approach
             new CartesianDriveTimerCmd(mDrive, AutonConstants.kRightDriveSpeed, AutonConstants.kRightDriveSeconds),
+            new WaitCommand(AutonConstants.kReefCooldown),
             //Turn based on alliance
             Commands.either(
-                new CartesianTurnTimerCmd(mDrive, -1 * AutonConstants.kRightTurnSpeed, AutonConstants.kRightTurnSeconds),
-                new CartesianTurnTimerCmd(mDrive, AutonConstants.kRightTurnSpeed, AutonConstants.kRightTurnSeconds), 
+                new CartesianTurnTimerCmd(mDrive, AutonConstants.kRightTurnSpeed, AutonConstants.kRightTurnSeconds),
+                new CartesianTurnTimerCmd(mDrive, -1 * AutonConstants.kRightTurnSpeed, AutonConstants.kRightTurnSeconds), 
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red
-                
             ),
+            new WaitCommand(AutonConstants.kTurnCooldown),
             //Final approach
             new CartesianDriveTimerCmd(mDrive, AutonConstants.kRightFinalSpeed, AutonConstants.kRightFinalSeconds),
 
+            new WaitCommand(AutonConstants.kReefCooldown),
             new SpinWheelsCmd(mManipulator, MechConstants.kWheelReefSpeed).withTimeout(AutonConstants.kSpinWheelsSeconds),
             new StopWheelsCmd(mManipulator)
         );

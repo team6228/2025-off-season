@@ -56,6 +56,7 @@ public class Manipulator extends SubsystemBase{
         encoder.reset();
         encoder.setDistancePerPulse(ManipulatorConstants.kDistancePerPulse);
 
+
         //pidController.setTolerance(2.5);
     }
 
@@ -79,6 +80,10 @@ public class Manipulator extends SubsystemBase{
         return this.run(() -> getToAngle(angle));
     }
 
+    public void resetEncoder(){
+        encoder.reset();
+    }
+
     public void setSetpoint(double angle){
         setpointAngle = angle;
         pidController.setSetpoint(angle);
@@ -95,10 +100,10 @@ public class Manipulator extends SubsystemBase{
         if (encoderReading() > 25){
             System.out.println("Stop");
             spinMotor.set(0.0);
-        }else if (encoderReading() > -2 && encoderReading() < 25 && pidOutput > 0.001){
+        }else if (encoderReading() > -15 && encoderReading() < 25 && pidOutput > 0.001){
             System.out.println("Up");
             spinMotor.set(-0.5); 
-        }else if (encoderReading() > -1 && encoderReading() < 25 &&  pidOutput < 0.001){
+        }else if (encoderReading() > -10 && encoderReading() < 25 &&  pidOutput < 0.001){
             System.out.println("Down");
             spinMotor.set(0.6);
         }else{
@@ -111,6 +116,20 @@ public class Manipulator extends SubsystemBase{
         armRotationMotor.set( -1.0 * pidOutput );
 
         //armRotationMotor.set(-pidOutput);
+    }
+
+    public void fullStop(){
+        spinMotor.set(0.0);
+        armRotationMotor.set(0.0);
+        pidController.close();
+        armRotationMotor.stopMotor();
+        spinMotor.stopMotor();
+        armRotationMotor.disable();
+        spinMotor.disable();
+    }
+
+    public void manuelControl(double speed){
+        armRotationMotor.set(-speed);
     }
 
     public void getToAngle(double angle){

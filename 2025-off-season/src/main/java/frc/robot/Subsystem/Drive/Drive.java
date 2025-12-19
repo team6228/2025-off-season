@@ -1,6 +1,8 @@
 package frc.robot.Subsystem.Drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -9,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase{
+    //[TODO] implement april tag follow
     private final VictorSP frontLeftMotor = new VictorSP(DriveConstants.frontLeftMotorPWMPort);
     private final VictorSP frontRightMotor = new VictorSP(DriveConstants.frontRightMotorPWMPort);
     private final VictorSP rearLeftMotor = new VictorSP(DriveConstants.rearLeftMotorPWMPort);
@@ -17,6 +20,8 @@ public class Drive extends SubsystemBase{
     private final MecanumDrive robotDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 
     public final BuiltInAccelerometer accel = new BuiltInAccelerometer();
+
+    private final NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("Vision");
 
     public Drive(){
         frontLeftMotor.setInverted(DriveConstants.frontLeftMotorReversed);
@@ -30,6 +35,10 @@ public class Drive extends SubsystemBase{
         SmartDashboard.putNumber("accelX", accel.getX());
         SmartDashboard.putNumber("accelY", accel.getY());
         SmartDashboard.putNumber("accelZ", accel.getZ());
+
+        SmartDashboard.putNumber("yaw", visionTable.getEntry("yaw").getDouble(0));
+        SmartDashboard.putNumber("yaw", visionTable.getEntry("pitch").getDouble(0));
+        SmartDashboard.putNumber("yaw", visionTable.getEntry("roll").getDouble(0));
     }
 
     //[TODO] How dose polar drive even work bruh?
@@ -55,6 +64,7 @@ public class Drive extends SubsystemBase{
 
     public void brakeMotors(){
         //[TODO] Dont make it fly cuh
+        robotDrive.driveCartesian(-0.2, 0, 0);
     }
 
     public void stopMotors(){

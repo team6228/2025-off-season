@@ -13,7 +13,7 @@ public class ManipulatorConstants{
     public static final MotorType kSpinMotorType = MotorType.kBrushed;
     public static final boolean kSpinMotorReversed = false;
 
-    public static final int[] kEncoderDIOPorts = {0,1};
+    public static final int[] kEncoderDIOPorts = {5,6};
     public static final boolean kEncoderReversed = true;
 
     public static final double kEncoderCPR = 1024.;
@@ -26,11 +26,11 @@ public class ManipulatorConstants{
     public static final double kEncoderOffset = 5.;
 
     public static final double kSoftLimitUp = 90;
-    public static final double kSoftLimitDown = -15;
+    public static final double kSoftLimitDown = -10;
 
     public static final double kP = 0.0200;
     public static final double kI = 0.0000;
-    public static final double kD = 0.0005;
+    public static final double kD = 0.0005 ;
 
     public static final double kErrorTolerance = 5;
 

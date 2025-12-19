@@ -1,35 +1,36 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystem.Manipulator.Manipulator;
 
-public class SetArmAngleCmd extends Command{
+public class ManuelArmCmd extends Command{
     private Manipulator mManipulatorSubsystem;
-    private Double mAngle;
+    private Double mAngleSpeed,mWheelSpeed;
 
-    public SetArmAngleCmd(Manipulator manipulatorSubsystem,Double angle){
+    public ManuelArmCmd(Manipulator manipulatorSubsystem,Double angleSpeed,Double wheelSpeed){
         this.mManipulatorSubsystem = manipulatorSubsystem;
-        this.mAngle = angle;
+        this.mAngleSpeed = angleSpeed;
+        this.mWheelSpeed = wheelSpeed;
 
         addRequirements(manipulatorSubsystem);
     }
 
     @Override
     public void initialize(){
-        mManipulatorSubsystem.setSetpoint(mAngle);
     }
 
     @Override
     public void execute(){
-        mManipulatorSubsystem.calculate();
-        System.out.println("Arm");
+        mManipulatorSubsystem.manuelControl(-mAngleSpeed);
+        mManipulatorSubsystem.spinWheels(mWheelSpeed);
     }
 
     @Override
     public void end(boolean interrupted){
+        mManipulatorSubsystem.stopRotation();
         mManipulatorSubsystem.stopWheels();
-        mManipulatorSubsystem.resetPid();
     }
 
     @Override

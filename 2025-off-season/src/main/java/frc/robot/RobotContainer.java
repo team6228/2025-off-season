@@ -5,10 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Subsystem.Drive.Drive;
 import frc.robot.Subsystem.Manipulator.Manipulator;
 import frc.robot.Commands.CartesianDriveCmd;
+import frc.robot.Commands.FullStopArmCmd;
+import frc.robot.Commands.ManuelArmCmd;
+import frc.robot.Commands.ResetEncoderCmd;
 import frc.robot.Commands.SetArmAngleCmd;
 import frc.robot.Commands.SpinWheelsCmd;
 import frc.robot.Commands.StopArmAngleCmd;
@@ -40,34 +44,34 @@ public class RobotContainer {
     configureAutonomousOptions();
 
     /* 
-    Xbox
+    //Xbox
     mDriveSubsystem.setDefaultCommand(new CartesianDriveCmd(mDriveSubsystem,
       () -> joystick.getRightY(),() -> joystick.getRightX(),() -> joystick.getLeftX()));
     */
-
-    /* 
-    Radiomaster
+     
+    //Radiomaster
     mDriveSubsystem.setDefaultCommand(new CartesianDriveCmd(mDriveSubsystem,
       () -> joystick.getRawAxis(1), () -> joystick.getRawAxis(0), () -> joystick.getRawAxis(3)));
-    */
-
+    
+    /* 
+    //Logitech
     mDriveSubsystem.setDefaultCommand(new CartesianDriveCmd(mDriveSubsystem,
       () -> joystick.getRawAxis(1) * -1, () -> joystick.getRawAxis(0), () -> joystick.getRawAxis(2)));
+    */
+    
   }
 
   private void configureBindings() {
+    /* 
     //Xbox
-    /*
     //Dropper & intake
     joystick.leftTrigger().toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem, MechConstants.kWheelAlgeaSpeed));
     joystick.rightTrigger().toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem,MechConstants.kWheelReefSpeed));
-
     //Arm
     joystick.rightBumper().toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kExtendedArmAngle));
     joystick.leftBumper().toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kRetractArmAngle));
-    joystick.a().toggleOnTrue(mManipulatorSubsystem.getToAngleCmd(65));
     */
-
+    /* 
     //Logitech
     //Dropper & intake
     joystick.button(3).toggleOnTrue(new SpinWheelsCmd(mManipulatorSubsystem, MechConstants.kWheelAlgeaSpeed));
@@ -76,6 +80,20 @@ public class RobotContainer {
     //Arm
     joystick.button(5).toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kExtendedArmAngle));
     joystick.button(6).toggleOnTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kRetractArmAngle));
+    */
+     
+    //Radiomaster
+    joystick.button(2).onTrue(new FullStopArmCmd(mManipulatorSubsystem));
+    //Dropper & intake
+    joystick.axisGreaterThan(6, 0).whileTrue(new SpinWheelsCmd(mManipulatorSubsystem, MechConstants.kWheelAlgeaSpeed));
+    joystick.axisGreaterThan(4, 0).whileTrue(new SpinWheelsCmd(mManipulatorSubsystem,MechConstants.kWheelReefSpeed));
+
+    //------------------[PID]---------------------
+    joystick.axisLessThan(5,0).whileTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kExtendedArmAngle));
+    joystick.axisGreaterThan(5, 0).whileTrue(new SetArmAngleCmd(mManipulatorSubsystem, MechConstants.kRetractArmAngle));
+    //-----------------[MANUEL]-------------------
+    joystick.axisGreaterThan(7, 0).whileTrue(new ManuelArmCmd(mManipulatorSubsystem, 0.2,-0.5)); //Up
+    joystick.axisLessThan(7, 0).whileTrue(new ManuelArmCmd(mManipulatorSubsystem, -0.2,0.6)); //Down
   }
 
   private void configureAutonomousOptions(){
