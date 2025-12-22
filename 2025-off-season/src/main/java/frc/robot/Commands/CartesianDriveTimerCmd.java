@@ -31,19 +31,13 @@ public class CartesianDriveTimerCmd extends Command{
     public void execute(){
         //[TODO] be sure that xSpeed is forward.Wallahi wpilib docs be quircky at night
         if(timer.get() < mSeconds){
-            double accelX = mDrive.accel.getX();   
-            double accelY = mDrive.accel.getY();
-            double accelZ = mDrive.accel.getZ();   
-
             mDrive.driveCartesian(mSpeed, 0., -0.05267);
-        }else if(timer.get() > mSeconds)
-            mDrive.stopMotors();
+        }
     }
 
     @Override
     public void end(boolean interrupted){
         mDrive.brakeMotors();
-        mDrive.stopMotors();
     }
 
     @Override

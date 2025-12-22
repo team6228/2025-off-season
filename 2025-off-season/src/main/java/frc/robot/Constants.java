@@ -13,10 +13,10 @@ public class Constants {
     }
 
     public static class MechConstants{
-        public static final double kWheelReefSpeed = -0.67;
+        public static final double kWheelReefSpeed = -0.467;
         public static final double kWheelAlgeaSpeed = 0.67;
 
-        public static final double kExtendedArmAngle = 70;
+        public static final double kExtendedArmAngle = 75;
         public static final double kRetractArmAngle = -5;
 
         public static final double kRotationTestSpeed = 0.5;
@@ -34,7 +34,11 @@ public class Constants {
 
         public static final double kStartDriveSpeed = 0.35;
 
-        public static final double kStartForwardSeconds = 3.;
+        public static final double kStartForwardSeconds = 4.;
+
+        public static final double kOffCenterSpeed = 0.35;
+
+        public static final double kOffCenterSeconds = 7.;
 
         public static final double kLeftDriveSpeed =  0.35;
         public static final double kRightDriveSpeed = 0.35;

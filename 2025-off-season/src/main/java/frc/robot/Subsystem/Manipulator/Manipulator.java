@@ -103,7 +103,7 @@ public class Manipulator extends SubsystemBase{
         }else if (encoderReading() > -15 && encoderReading() < 25 && pidOutput > 0.001){
             System.out.println("Up");
             spinMotor.set(-0.5); 
-        }else if (encoderReading() > -10 && encoderReading() < 25 &&  pidOutput < 0.001){
+        }else if (encoderReading() > -20 && encoderReading() < 25 &&  pidOutput < 0.001){
             System.out.println("Down");
             spinMotor.set(0.6);
         }else{

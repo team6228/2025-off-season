@@ -1,10 +1,10 @@
 package frc.robot.Subsystem.Drive;
 
 public class DriveConstants {
-    public static final int frontLeftMotorPWMPort = 6;
+    public static final int frontLeftMotorPWMPort = 2;
     public static final boolean frontLeftMotorReversed = false;
 
-    public static final int frontRightMotorPWMPort = 7;
+    public static final int frontRightMotorPWMPort = 3;
     public static final boolean frontRightMotorReversed = true;
 
     public static final int rearLeftMotorPWMPort = 9;

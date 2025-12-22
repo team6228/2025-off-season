@@ -19,26 +19,17 @@ public class Drive extends SubsystemBase{
 
     private final MecanumDrive robotDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 
-    public final BuiltInAccelerometer accel = new BuiltInAccelerometer();
-
-    private final NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("Vision");
-
     public Drive(){
         frontLeftMotor.setInverted(DriveConstants.frontLeftMotorReversed);
         frontRightMotor.setInverted(DriveConstants.frontRightMotorReversed);
         rearLeftMotor.setInverted(DriveConstants.rearLeftMotorReversed);
         rearRightMotor.setInverted(DriveConstants.rearRightMotorReversed);
+
+        robotDrive.setSafetyEnabled(false);
     }
 
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("accelX", accel.getX());
-        SmartDashboard.putNumber("accelY", accel.getY());
-        SmartDashboard.putNumber("accelZ", accel.getZ());
-
-        SmartDashboard.putNumber("yaw", visionTable.getEntry("yaw").getDouble(0));
-        SmartDashboard.putNumber("yaw", visionTable.getEntry("pitch").getDouble(0));
-        SmartDashboard.putNumber("yaw", visionTable.getEntry("roll").getDouble(0));
     }
 
     //[TODO] How dose polar drive even work bruh?
